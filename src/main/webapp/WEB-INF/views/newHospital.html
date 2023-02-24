@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Hospital</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{save}" th:object="${newHospital}">
+    <input type="hidden" th:field="*{id}">
+    <div>
+        <label for="name"> Name</label>
+        <input type="text" th:field="*{name}" id="name"/>
+    </div>
+    <div>
+        <label for="address"> Address</label>
+        <input type="text" th:field="*{address}" id="address"/>
+    </div>
+<!--    <div>-->
+<!--        <label for="appointment"> Appointment </label>-->
+<!--        <input type="text" th:field="*{appointments}" id="appointment"/>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <select th:field="*{hospitalId}">-->
+<!--            <option value="">&#45;&#45;Select an option&#45;&#45;</option>-->
+<!--            <option th:each="hospital:${hospitals}" th:value="${hospital.id}" th:text="${company.name}"></option>-->
+<!--        </select>-->
+<!--    </div>-->
+    <button type="submit"> Save Hospital</button>
+</form>
+</body>
+</html>

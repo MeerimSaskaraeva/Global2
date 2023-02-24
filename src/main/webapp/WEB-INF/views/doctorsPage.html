@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctors </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+    <style>
+        .table{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<table class="table" >
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Position</th>
+        <th scope="col">Email</th>
+        <th scope="col">Hospital</th>
+        <th scope="col">Department</th>
+        <th scope="col">Appointment</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="doc:${doctors}">
+        <th scope="row" th:text="${doc.getId()}"></th>
+        <th th:text="${doc.getFirstName()}"></th>
+        <th th:text="${doc.getLastName()}"></th>
+        <th th:text="${doc.getPosition()}"></th>
+        <th th:text="${doc.getEmail()}"></th>
+        <th th:text="${doc.getHospital().name}"></th>
+        <th>
+
+            <form th:method="DEPARTMENT" th:action="@{/doctors/{doctorId}/departments (doctorId=${doc.getId()})}">
+                <a class="btn btn-outline-primary" role="button"
+                   th:href="@{/doctors/{doctorId}/departments (doctorId=${doc.getId()})}"> Departments</a>
+                <br/>
+                <a class="btn btn-outline-primary" role="button"
+                   th:href="@{/doctors/{doctorId}/assignDep (doctorId=${doc.getId()})}"> AssignDep</a>
+            </form>
+        </th>
+        <th>
+            <form th:method="APPOINTMENT" th:action="@{/doctors/{doctorId}/appointments (doctorId=${doc.getId()})}">
+                <a class="btn btn-outline-primary" role="button"
+                   th:href="@{/doctors/{doctorId}/appointments (doctorId=${doc.getId()})}"> Appointments</a>
+                <br/>
+
+            </form>
+        </th>
+        <th>
+            <form th:method="DELETE" th:action="@{/doctors/{doctorId}/delete (doctorId=${doc.getId()})}">
+                <input type="submit" class="btn btn-outline-primary" th:value=" DeleteTwoClicks"></input>
+            </form>
+        </th>
+        <th>
+            <form th:method="UPDATE" th:action="@{/doctors/{doctorId}/editDoctor (doctorId=${doc.getId()})}">
+                <a class="btn btn-outline-primary" role="button" th:href="
+                @{/doctors/{doctorId}/editDoctor (doctorId=${doc.getId()})}"> Update</a>
+            </form>
+        </th>
+    </tbody>
+</table>
+<br/>
+
+<p style="text-align: -moz-center;">
+    <a class="btn btn-outline-primary" role="button" href="/doctors/new2"> Add new Doctor</a>
+</p>
+<p>
+    <a class="btn btn-primary" href="/departments" >
+        Departments
+    </a>
+</p>
+<p>
+    <a class="btn btn-primary" href="/hospitals" >
+        Back
+    </a>
+</p>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</html>

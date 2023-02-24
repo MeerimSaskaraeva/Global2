@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Appointment</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/appointments/{hospitalId}/save5(hospitalId=${hospitalId})}" th:object="${newApp}">
+    <input type="hidden" th:field="*{id}">
+    <div>
+        <label for="date"> Date</label>
+        <input type="date" th:field="*{date}" id="date"/>
+    </div>
+    <div class="form-group">
+        <select th:field="*{patientId}">
+            <option value="">--Select an option--</option>
+            <option th:each="pa:${patients}" th:value="${pa.id}" th:text="${pa.lastName}"> patient </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select th:field="*{departmentId}">
+            <option value="">--Select an option--</option>
+            <option th:each="dep:${departments}" th:value="${dep.id}" th:text="${dep.name}"> department</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select th:field="*{doctorId}">
+            <option value="">--Select an option--</option>
+            <option th:each="doc:${doctors}" th:value="${doc.id}" th:text="${doc.lastName}"> doctor</option>
+        </select>
+    </div>
+
+    <button type="submit"> Save Appointment</button>
+    <a class="btn btn-primary" href="/hospitals" >
+        Exit
+    </a>
+</form>
+</body>
+</html>
