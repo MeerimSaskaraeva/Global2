@@ -21,8 +21,7 @@ public class Patient {
             generator = "patient_gen")
     @SequenceGenerator(name = "patient_gen",
             sequenceName = "patient_seq",
-            allocationSize = 1,
-            initialValue = 10
+            allocationSize = 1
     )
     private Long id;
     @Column(name = "first_name")
@@ -32,6 +31,7 @@ public class Patient {
     @Column(name = "phone_number")
     private String phoneNumber;
     private Gender gender;
+    @Column(unique = true)
     private String email;
     @ManyToOne(cascade = {CascadeType.PERSIST,
             CascadeType.REFRESH,

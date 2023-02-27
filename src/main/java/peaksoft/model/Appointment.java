@@ -18,8 +18,7 @@ public class Appointment {
             generator = "appointment_gen")
     @SequenceGenerator(name = "appointment_gen",
             sequenceName = "appointment_seq",
-            allocationSize = 1,
-            initialValue = 10
+            allocationSize = 1
     )
     private Long id;
     private LocalDate date;

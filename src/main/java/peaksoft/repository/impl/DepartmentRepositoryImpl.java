@@ -6,6 +6,7 @@ import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import peaksoft.model.Department;
+import peaksoft.model.Hospital;
 import peaksoft.repository.DepartmentRepository;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
     private EntityManager entityManager;
 
     @Override
-    public Department saveDepartment(Department department) {
+    public Department saveDepartment(Department department,Long hospitalId) {
         entityManager.persist(department);
+        Hospital hospital = entityManager.find(Hospital.class, hospitalId);
+        hospital.getDepartments().add(department);
         return department;
     }
 
@@ -29,10 +32,12 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
     @Override
     public void deleteDepartment(Long id) {
-        Query nativeQuery = entityManager.createNativeQuery(
-                "delete from doctors_departments where departments_id=" + id);
-        nativeQuery.executeUpdate();
-        entityManager.remove( entityManager.find(Department.class,id));
+        Department department = entityManager.find(Department.class, id);
+        entityManager.remove(department);
+//        Query nativeQuery = entityManager.createNativeQuery(
+//                "delete from doctors_departments where departments_id=" + id);
+//        nativeQuery.executeUpdate();
+//        entityManager.remove( entityManager.find(Department.class,id));
 
     }
 

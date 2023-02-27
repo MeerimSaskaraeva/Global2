@@ -24,7 +24,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment saveAppointment(Appointment appointment, Long hospitalId) {
         Appointment appointment1 = new Appointment();
         appointment1.setId(appointment.getId());
-        appointment1.setDate(appointment.getDate().plusDays(1));
+        appointment1.setDate(appointment.getDate());
         appointment1.setHospitalId(hospitalId);
         appointment1.setPatient(patientRepository.getPatientById(appointment.getPatientId()));
         appointment1.setDepartment(departmentRepository.getDepartmentById(appointment.getDepartmentId()));

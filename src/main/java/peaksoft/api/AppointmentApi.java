@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import peaksoft.model.*;
 import peaksoft.service.*;
 
+import java.util.ListIterator;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
@@ -38,7 +40,7 @@ public class AppointmentApi {
     public String create(Model model, @PathVariable("hospitalId") Long hospitalId) {
         model.addAttribute("newApp", new Appointment());
         model.addAttribute("patients", hospitalService.getAllHospitalPatients(hospitalId));
-        model.addAttribute("departments", departmentService.getAllDepartments());
+        model.addAttribute("departments", hospitalService.getAllHospitalDepartments(hospitalId));
         model.addAttribute("doctors", hospitalService.getAllHospitalDoctor(hospitalId));
         return "newApp";
     }
@@ -46,7 +48,7 @@ public class AppointmentApi {
     @PostMapping("/{hospitalId}/save5")
     public String save(@ModelAttribute("newApp") Appointment appointment, @PathVariable("hospitalId") Long id) {
         appointmentService.saveAppointment(appointment, id);
-        return "redirect:/appointments";
+        return "redirect:/hospitals";
     }
 
     @DeleteMapping("/{appointmentId}/delete")
@@ -61,7 +63,7 @@ public class AppointmentApi {
         Long hospitalId = appointment.getPatient().getHospital().getId();
         model.addAttribute("appointment", appointmentService.getAppointmentById(id));
         model.addAttribute("patients", hospitalService.getAllHospitalPatients(hospitalId));
-        model.addAttribute("departments", departmentService.getDepartmentById(hospitalId));
+        model.addAttribute("departments", hospitalService.getAllHospitalDepartments(hospitalId));
         model.addAttribute("doctors", hospitalService.getAllHospitalDoctor(hospitalId));
         return "editApp";
     }

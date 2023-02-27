@@ -19,8 +19,8 @@ public class Department {
             generator = "department_gen")
     @SequenceGenerator(name = "department_gen",
             sequenceName = "department_seq",
-            allocationSize = 1,
-            initialValue = 10
+            allocationSize = 1
+
     )
     private Long id;
     private String name;
@@ -33,4 +33,9 @@ public class Department {
             fetch = FetchType.EAGER
     )
     private List<Doctor> doctors;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,
+            CascadeType.MERGE,CascadeType.DETACH})
+    private Hospital hospital;// new 2
+    @Transient
+    private Long hospitalId;
 }

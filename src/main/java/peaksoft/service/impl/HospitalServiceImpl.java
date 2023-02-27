@@ -2,10 +2,8 @@ package peaksoft.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import peaksoft.model.Appointment;
-import peaksoft.model.Doctor;
-import peaksoft.model.Hospital;
-import peaksoft.model.Patient;
+import peaksoft.model.*;
+import peaksoft.repository.DoctorRepository;
 import peaksoft.repository.HospitalRepository;
 import peaksoft.service.HospitalService;
 
@@ -13,11 +11,14 @@ import java.util.List;
 
 @Service
 @Transactional
+
 public class HospitalServiceImpl implements HospitalService {
     private final HospitalRepository hospitalRepository;
+    private final DoctorRepository doctorRepository;
 
-    public HospitalServiceImpl(HospitalRepository hospitalRepository) {
+    public HospitalServiceImpl(HospitalRepository hospitalRepository, DoctorRepository doctorRepository) {
         this.hospitalRepository = hospitalRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     @Override
@@ -57,6 +58,11 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
+    public List<Department> getAllHospitalDepartments(Long hospitalId) {
+        return hospitalRepository.getAllHospitalDepartments(hospitalId);
+    }
+
+    @Override
     public String assignHospitalToAppointment(Long hospitalId, Long appointmentId) {
         return hospitalRepository.assignHospitalToAppointment(hospitalId,appointmentId);
     }
@@ -65,4 +71,6 @@ public class HospitalServiceImpl implements HospitalService {
     public List<Appointment> getAllHospitalAppointments(Long hospitalId) {
         return hospitalRepository.getAllHospitalAppointments(hospitalId);
     }
+
+
 }

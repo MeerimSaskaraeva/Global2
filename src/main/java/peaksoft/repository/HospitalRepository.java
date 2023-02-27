@@ -1,9 +1,6 @@
 package peaksoft.repository;
 
-import peaksoft.model.Appointment;
-import peaksoft.model.Doctor;
-import peaksoft.model.Hospital;
-import peaksoft.model.Patient;
+import peaksoft.model.*;
 
 import java.util.List;
 
@@ -15,6 +12,8 @@ public interface HospitalRepository {
     List<Hospital> getAllHospitals();
     List<Doctor> getAllHospitalDoctor(Long hospitalId);
     List<Patient> getAllHospitalPatients(Long hospitalId);
+    List<Department> getAllHospitalDepartments(Long hospitalId);
     public String assignHospitalToAppointment(Long hospitalId, Long appointmentId);
     public List<Appointment> getAllHospitalAppointments(Long hospitalId);
+
 }

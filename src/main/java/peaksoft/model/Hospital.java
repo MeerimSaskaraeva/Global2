@@ -19,8 +19,7 @@ public class Hospital {
             generator = "hospital_gen")
     @SequenceGenerator(name = "hospital_gen",
             sequenceName = "hospital_seq",
-            allocationSize = 1,
-            initialValue = 10
+            allocationSize = 1
     )
     private Long id;
     private String name;
@@ -32,8 +31,12 @@ public class Hospital {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Appointment> appointments;
-//    @Transient
-//    private Long hospitalId;
+
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+//    @Column(unique = true)
+    private List<Department> departments;// new 1
+
+
 
     public Hospital(Long id, String name, String address) {
         this.id = id;

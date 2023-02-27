@@ -13,6 +13,7 @@ import peaksoft.repository.DoctorRepository;
 import peaksoft.repository.HospitalRepository;
 import peaksoft.service.DoctorService;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 @Service
@@ -22,6 +23,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final HospitalRepository hospitalRepository;
+    private final DepartmentRepository departmentRepository;
 
     private final AppointmentRepository appointmentRepository;
     @Override
@@ -59,8 +61,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void updateDoctor(Long id, Doctor update,Long hospitalId) {
-        doctorRepository.updateDoctor(id,update,hospitalId);
+    public void updateDoctor(Long id, Doctor update) {
+        doctorRepository.updateDoctor(id,update);
 
     }
 
@@ -80,12 +82,18 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public String assignDoctorToDepartment(Long doctorId, Long departmentId) {
-        return doctorRepository.assignDoctorToDepartment(doctorId,departmentId);
+    public String assignDoctorToDepartment(Long hospitalId,Long doctorId,Long departmentId) {
+       doctorRepository.assignDoctorToDepartment(hospitalId,doctorId,departmentId);
+        return " ";
     }
 
     @Override
     public String assignDoctorToAppointment(Long doctorId, Long appointmentId) {
         return doctorRepository.assignDoctorToAppointment(doctorId,appointmentId);
+    }
+    @Override
+    public Long getDepartmentsByDoctorId(Long doctorId) {
+
+        return doctorRepository.getDepartmentsByDoctorId(doctorId);
     }
 }

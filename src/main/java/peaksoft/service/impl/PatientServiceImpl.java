@@ -56,8 +56,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void updatePatient(Long id, Patient update, Long hospitalId) {
-        patientRepository.updatePatient(id, update, hospitalId);
+    public void updatePatient(Long id, Patient update) {
+        patientRepository.updatePatient(id, update);
     }
 
     @Override

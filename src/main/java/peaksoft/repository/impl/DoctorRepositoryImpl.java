@@ -3,17 +3,18 @@ package peaksoft.repository.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import peaksoft.model.*;
 import peaksoft.repository.DoctorRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
 @Transactional
+@RequiredArgsConstructor
 public class DoctorRepositoryImpl implements DoctorRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -37,14 +38,13 @@ public class DoctorRepositoryImpl implements DoctorRepository {
     }
 
     @Override
-    public void updateDoctor(Long id, Doctor update, Long hospitalId) {
+    public void updateDoctor(Long id, Doctor update) {
         Doctor doctor = getDoctorById(id);
         doctor.setFirstName(update.getFirstName());
         doctor.setLastName(update.getLastName());
         doctor.setPosition(update.getPosition());
         doctor.setEmail(update.getEmail());
-        Hospital hospital1 = entityManager.find(Hospital.class, hospitalId);
-        doctor.setHospital(hospital1);
+
 
     }
 
@@ -68,23 +68,31 @@ public class DoctorRepositoryImpl implements DoctorRepository {
     }
 
     @Override
-    public String assignDoctorToDepartment(Long doctorId, Long departmentId) {
-        Doctor doctor = entityManager.find(Doctor.class, doctorId);
-        Department department = entityManager.find(Department.class, departmentId);
-        List<Doctor> doctors = new ArrayList<>(Arrays.asList(doctor));
-        List<Department> departments = new ArrayList<>(Arrays.asList(department));
-        doctor.getDepartments().add(department);
-        return " ";
+    public String assignDoctorToDepartment(Long hospitalId,Long doctorId,Long departmentId) {
+        List<Doctor> doctors = entityManager.createQuery("select d from Doctor d where d.hospital.id=:hospitalId", Doctor.class)
+                .setParameter("id", hospitalId).getResultList();
+        List<Department> departments = entityManager.createQuery("select d from Department d where d.hospital.id=:id", Department.class)
+                .setParameter("id", hospitalId).getResultList();
+        for (Doctor doctor : doctors) {
+            doctor.setDepartments(departments);
+        }
+        return "";
     }
 
     @Override
     public String assignDoctorToAppointment(Long doctorId, Long appointmentId) {
         Doctor doctor = entityManager.find(Doctor.class, doctorId);
         Appointment appointment = entityManager.find(Appointment.class, appointmentId);
-//        List<Doctor>doctors=new ArrayList<>(Arrays.asList(doctor));
         List<Appointment> appointments = new ArrayList<>(Arrays.asList(appointment));
         doctor.getAppointments().add(appointment);
-
         return " ";
+    }
+    @Override
+    public Long getDepartmentsByDoctorId(Long doctorId) {
+        Long id = entityManager.createQuery(
+                "select d.hospital.id from Doctor d where d.id=:doctorId",
+                Hospital.class).setParameter("id", doctorId).getSingleResult().getId();
+
+        return id;
     }
 }

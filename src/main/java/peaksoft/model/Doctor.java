@@ -20,8 +20,7 @@ public class Doctor {
             generator = "doctor_gen")
     @SequenceGenerator(name = "doctor_gen",
             sequenceName = "doctor_seq",
-            allocationSize = 1,
-            initialValue = 10
+            allocationSize = 1
     )
     private Long id;
     @Column(name = "first_name")
@@ -50,13 +49,16 @@ public class Doctor {
             fetch = FetchType.EAGER)
     private List<Appointment> appointments;
 
-    public Doctor(Long id, String firstName, String lastName, String position, String email) {
-        this.id = id;
+    public Doctor(String firstName, String lastName, String position, String email, Hospital hospital, List<Department> departments, List<Appointment> appointments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
         this.email = email;
+        this.hospital = hospital;
+        this.departments = departments;
+        this.appointments = appointments;
     }
+
     @Transient
     private Long hospitalId;
     @Transient

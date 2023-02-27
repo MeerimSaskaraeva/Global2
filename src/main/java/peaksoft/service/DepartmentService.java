@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface DepartmentService {
-    Department saveDepartment(Department department);
+    Department saveDepartment(Department department,Long hospitalId);
     Department getDepartmentById(Long id);
     void deleteDepartment(Long id);
     public void deleteDepartment2(Long id);

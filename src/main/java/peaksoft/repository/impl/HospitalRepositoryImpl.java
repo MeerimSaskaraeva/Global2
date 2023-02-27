@@ -4,10 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
-import peaksoft.model.Appointment;
-import peaksoft.model.Doctor;
-import peaksoft.model.Hospital;
-import peaksoft.model.Patient;
+import peaksoft.model.*;
 import peaksoft.repository.HospitalRepository;
 
 import java.util.ArrayList;
@@ -60,20 +57,27 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                 .getResultList();
     }
 
+
     @Override
     public List<Patient> getAllHospitalPatients(Long hospitalId) {
         return entityManager.createQuery(
-                "select p from Patient p join p.hospital hos where hos.id=:id ", Patient.class)
-                .setParameter("id",hospitalId)
+                        "select p from Patient p join p.hospital hos where hos.id=:id ", Patient.class)
+                .setParameter("id", hospitalId)
                 .getResultList();
     }
+
+    @Override
+    public List<Department> getAllHospitalDepartments(Long hospitalId) {
+        return entityManager.createQuery(
+                        "select d from Department d join d.hospital hos where hos.id=:id", Department.class)
+                .setParameter("id", hospitalId).getResultList();
+    }
+
     @Override
     public String assignHospitalToAppointment(Long hospitalId, Long appointmentId) {
-        Hospital hospital=entityManager.find(Hospital.class,hospitalId);
-        Appointment appointment=entityManager.find(Appointment.class,appointmentId);
-//        List<Hospital>hospitals=new ArrayList<>(Arrays.asList(hospital));
-        List<Appointment>appointments=new ArrayList<>(Arrays.asList(appointment));
-//        hospital.setAppointments(appointments);
+        Hospital hospital = entityManager.find(Hospital.class, hospitalId);
+        Appointment appointment = entityManager.find(Appointment.class, appointmentId);
+        List<Appointment> appointments = new ArrayList<>(Arrays.asList(appointment));
         hospital.getAppointments().add(appointment);
         return " ";
     }
@@ -82,7 +86,9 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     public List<Appointment> getAllHospitalAppointments(Long hospitalId) {
         return entityManager.createQuery(
                 "select a from Appointment a ,Hospital h where a.id =:id",
-                Appointment.class).setParameter("id",hospitalId).getResultList();
+                Appointment.class).setParameter("id", hospitalId).getResultList();
 
     }
+
+
 }

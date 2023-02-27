@@ -4,10 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.model.Doctor;
+import peaksoft.model.Hospital;
+import peaksoft.model.Patient;
 import peaksoft.service.AppointmentService;
 import peaksoft.service.DepartmentService;
 import peaksoft.service.DoctorService;
 import peaksoft.service.HospitalService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/doctors")
@@ -43,7 +47,7 @@ public class DoctorApi {
     @PostMapping("/save2")
     public String save(@ModelAttribute("newDoctor") Doctor doctor) {
         doctorService.saveDoctor(doctor);
-        return "redirect:/doctors";
+        return "redirect:/hospitals";
     }
 
     @DeleteMapping("{doctorId}/delete")
@@ -56,15 +60,16 @@ public class DoctorApi {
     @GetMapping("{doctorId}/editDoctor")
     public String edit(Model model, @PathVariable("doctorId") Long id) {
         model.addAttribute("doctor", doctorService.getDoctorById(id));
-        model.addAttribute("hospitals", hospitalService.getAllHospitals());
+//        model.addAttribute("hospitals", hospitalService.getAllHospitals());
         return "editDoctor";
     }
 
     @PutMapping("{doctorId}/update")
     public String update(@PathVariable("doctorId") Long id,
-                         @ModelAttribute("doctor") Doctor doctor,
-                         @ModelAttribute("hospitalId") Long hospitalId) {
-        doctorService.updateDoctor(id, doctor, hospitalId);
+                         @ModelAttribute("doctor") Doctor doctor)
+//                         @ModelAttribute("hospitalId") Long hospitalId)
+    {
+        doctorService.updateDoctor(id, doctor);
         return "redirect:/doctors";
     }
 
@@ -74,23 +79,28 @@ public class DoctorApi {
                 getAllDoctorDepartments(doctorId));
         return "departmentsPage";
     }
+
     @GetMapping("{doctorId}/appointments")
     public String getAllDoctorAppointments(Model model, @PathVariable Long doctorId) {
         model.addAttribute("appointments", doctorService.
                 getAllDoctorAppointments(doctorId));
         return "appointPage";
     }
-    @GetMapping("{doctorId}/assignDep")
-    public String assignDep(Model model,@PathVariable("doctorId") Long id) {
-        model.addAttribute("doctor", doctorService.getDoctorById(id));
-        model.addAttribute("department", departmentService.getAllDepartments());
+
+    @GetMapping("/{hospitalId}/assignDep")
+    public String assignDep(Model model, @PathVariable("hospitalId") Long hospitalId) {
+        model.addAttribute("hospital", hospitalService.getHospitalById(hospitalId));
+        model.addAttribute("doctor", hospitalService.getAllHospitalDoctor(hospitalId));
+        model.addAttribute("department", hospitalService.getAllHospitalDepartments(hospitalId));
         return "assignDep";
     }
 
-    @PutMapping("{doctorId}/addDep")
-    public String addDep(@PathVariable("doctorId") Long doctorId,
-                         @ModelAttribute("departmentId") Long departmentId){
-        doctorService.assignDoctorToDepartment(doctorId, departmentId);
+    @PutMapping("/{hospitalId}/addDep")
+    public String addDep(
+            @PathVariable("hospitalId") Long hospitalId,
+            @ModelAttribute("doctorId") Long doctorId,
+            @ModelAttribute("departmentId")Long departmentId){
+        doctorService.assignDoctorToDepartment(hospitalId,doctorId,departmentId);
         return "redirect:/doctors";
     }
 //    @GetMapping("{doctorId}/assignApp")

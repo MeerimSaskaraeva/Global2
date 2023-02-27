@@ -13,19 +13,19 @@
     </div>
     <div class="form-group">
         <select th:field="*{patientId}">
-            <option value="">--Select an option--</option>
+            <option value="">--Select patients--</option>
             <option th:each="pa:${patients}" th:value="${pa.id}" th:text="${pa.lastName}"> patient </option>
         </select>
     </div>
     <div class="form-group">
         <select th:field="*{departmentId}">
-            <option value="">--Select an option--</option>
+            <option value="">--Select departments--</option>
             <option th:each="dep:${departments}" th:value="${dep.id}" th:text="${dep.name}"> department</option>
         </select>
     </div>
     <div class="form-group">
         <select th:field="*{doctorId}">
-            <option value="">--Select an option--</option>
+            <option value="">--Select doctors--</option>
             <option th:each="doc:${doctors}" th:value="${doc.id}" th:text="${doc.lastName}"> doctor</option>
         </select>
     </div>

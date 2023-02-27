@@ -33,7 +33,7 @@ public class PatientApi {
     @PostMapping("/save3")
     public String save(@ModelAttribute("newPatient") Patient patient) {
         patientService.savePatient(patient);
-        return "redirect:/patients";
+        return "redirect:/hospitals";
     }
 
     @DeleteMapping("{patientId}/delete")
@@ -50,9 +50,8 @@ public class PatientApi {
     }
 
     @PutMapping("{patientId}/update")
-    public String update(@PathVariable("patientId") Long id, @ModelAttribute("patient") Patient patient,
-                         @ModelAttribute("hospitalId") Long hospitalId) {
-        patientService.updatePatient(id, patient, hospitalId);
+    public String update(@PathVariable("patientId") Long id, @ModelAttribute("patient") Patient patient){
+        patientService.updatePatient(id, patient);
         return "redirect:/patients";
     }
 

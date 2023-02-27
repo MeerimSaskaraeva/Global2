@@ -50,6 +50,13 @@ public class HospitalApi {
         hospitalService.updateHospital(id,hospital);
         return "redirect:/hospitals";
     }
+
+    @GetMapping("{hospitalId}/departments")
+    public String getAllHospitalDepartments(Model model, @PathVariable Long hospitalId) {
+        model.addAttribute("departments", hospitalService.
+                getAllHospitalDepartments(hospitalId));
+        return "departmentsPage";
+    }
     @GetMapping("{hospitalId}/doctors")
     public String getAllHospitalDoctor(Model model, @PathVariable Long hospitalId){
         model.addAttribute("doctors",hospitalService.getAllHospitalDoctor(hospitalId));

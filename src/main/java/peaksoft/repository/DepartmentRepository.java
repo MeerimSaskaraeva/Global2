@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface DepartmentRepository {
-    Department saveDepartment(Department department);
+    Department saveDepartment(Department department,Long hospitalId);
     Department getDepartmentById(Long id);
     void deleteDepartment(Long id);
     public void deleteDepartment2(Long id);

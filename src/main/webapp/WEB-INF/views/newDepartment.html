@@ -5,12 +5,19 @@
     <title>New Department</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{save4}" th:object="${newDepartment}">
+<form th:method="POST" th:action="@{/departments/{hospitalId}/save4 (hospitalId=${hospitalId})}"
+      th:object="${department}">
     <input type="hidden" th:field="*{id}">
     <div>
         <label for="name"> Name</label>
         <input type="text" th:field="*{name}" id="name"/>
     </div>
+<!--    <div class="form-group">-->
+<!--        <select th:field="*{hospitalId}">-->
+<!--            <option value="">&#45;&#45;Select an option&#45;&#45;</option>-->
+<!--            <option th:each="hos:${hospitals}" th:value="${hos.id}" th:text="${hos.name}"></option>-->
+<!--        </select>-->
+<!--    </div>-->
     <button type="submit"> Save Department</button>
 </form>
 </body>
